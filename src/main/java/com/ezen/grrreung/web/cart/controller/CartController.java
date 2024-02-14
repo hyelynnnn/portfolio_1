@@ -99,10 +99,6 @@ public class CartController {
 
 
 
-
-
-
-
     // 장바구니 개별 삭제
     @GetMapping("/cart/delete/{itemId}")
     public String deleteItemToCart(@PathVariable int itemId, HttpSession session) {

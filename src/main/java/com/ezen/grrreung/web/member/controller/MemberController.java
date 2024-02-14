@@ -2,7 +2,6 @@ package com.ezen.grrreung.web.member.controller;
 
 import com.ezen.grrreung.domain.member.dto.Member;
 import com.ezen.grrreung.domain.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +70,7 @@ public class MemberController {
      */
     @PostMapping("/register")
     public String register(@ModelAttribute("member") Member member) {
-        log.info("수신한 회원 정보 : {}", member.toString());
+        /*log.info("수신한 회원 정보 : {}", member.toString());*/
         memberService.register(member);  // 디비연결
         return "redirect:/grrreung/result";
     }
@@ -80,7 +79,7 @@ public class MemberController {
      * 회원가입 결과 페이지
      */
     @GetMapping("/result")
-    public String result(HttpServletRequest request) {
+    public String result() {
         return "/grrreung/sub/result";
     }
 
@@ -114,12 +113,13 @@ public class MemberController {
      * 마이페이지 수정 화면
      */
     @GetMapping("/update/{memberId}")
-    // 업데이트 페이지 불러오기
     public String update(@PathVariable String memberId, Model model) {
-        // DB에서 내용을 가져오기
+        //  memberId를 기반으로 DB에서 회원정보 가져오기
         Member member = memberService.memberInfo(memberId);
-        // html로 전달해줌
+
+        // 가져온 회원 정보를 뷰에 전달하기 위해 모델에 추가
         model.addAttribute("member", member);
+
         return "/grrreung/sub/update";
     }
 
@@ -133,14 +133,6 @@ public class MemberController {
         return "/grrreung/sub/updateInfo";
     }
 
-
-    /**
-     * 회원 탈퇴 비밀번호 입력
-     */
-//    @PostMapping("/out")
-//    public String deletePw(@RequestParam String password, Model model, Authentication authentication){
-//        Member member = (Member) authentication.getP
-//    }
 
     /**
      * 회원 탈퇴
